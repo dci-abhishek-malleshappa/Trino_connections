@@ -1,0 +1,15 @@
+com\zoho\trino\ZohoTableHandle.class
+com\zoho\trino\ZohoTransactionHandle.class
+com\zoho\trino\ZohoCursor.class
+com\zoho\trino\ZohoMetadata.class
+com\zoho\trino\ZohoRow.class
+com\zoho\trino\ZohoColumnHandle.class
+com\zoho\trino\ZohoApiClient.class
+com\zoho\trino\ZohoConfig.class
+com\zoho\trino\ZohoRecordSetProvider$1.class
+com\zoho\trino\ZohoRecordSetProvider.class
+com\zoho\trino\ZohoConnector.class
+com\zoho\trino\ZohoPlugin.class
+com\zoho\trino\ZohoSplit.class
+com\zoho\trino\ZohoSplitManager.class
+com\zoho\trino\ZohoConnectorFactory.class

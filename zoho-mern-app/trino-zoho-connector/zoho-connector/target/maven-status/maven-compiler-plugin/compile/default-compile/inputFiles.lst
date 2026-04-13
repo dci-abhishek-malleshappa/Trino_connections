@@ -1,0 +1,14 @@
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoApiClient.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoColumnHandle.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoConfig.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoConnector.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoConnectorFactory.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoCursor.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoMetadata.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoPlugin.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoRecordSetProvider.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoRow.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoSplit.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoSplitManager.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoTableHandle.java
+D:\DataEngineering\zoho-mern-app\trino-zoho-connector\zoho-connector\src\main\java\com\zoho\trino\ZohoTransactionHandle.java
