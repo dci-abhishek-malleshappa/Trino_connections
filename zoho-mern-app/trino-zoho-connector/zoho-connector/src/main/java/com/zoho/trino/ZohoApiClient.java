@@ -32,7 +32,8 @@ public final class ZohoApiClient
 
     public List<ZohoRow> fetchModuleRows(String moduleName)
     {
-        HttpRequest request = HttpRequest.newBuilder(config.getModuleUri(moduleName))
+        java.net.URI moduleUri = config.getModuleUri(moduleName);
+        HttpRequest request = HttpRequest.newBuilder(moduleUri)
                 .timeout(config.getTimeout())
                 .GET()
                 .build();
@@ -42,16 +43,42 @@ public final class ZohoApiClient
             if (response.statusCode() < 200 || response.statusCode() >= 300) {
                 throw new TrinoException(
                         StandardErrorCode.GENERIC_INTERNAL_ERROR,
-                        "Zoho connector received HTTP " + response.statusCode() + " from " + config.getModuleUri(moduleName));
+                        "Zoho connector received HTTP " + response.statusCode() + " from " + moduleUri);
             }
             return parseRows(response.body());
         }
         catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new TrinoException(StandardErrorCode.GENERIC_INTERNAL_ERROR, "Failed to call Express API", e);
+            throw new TrinoException(StandardErrorCode.GENERIC_INTERNAL_ERROR, "Failed to call Express API at " + moduleUri, e);
         }
         catch (IOException e) {
-            throw new TrinoException(StandardErrorCode.GENERIC_INTERNAL_ERROR, "Failed to call Express API", e);
+            if ("host.docker.internal".equalsIgnoreCase(moduleUri.getHost())) {
+                java.net.URI fallbackUri = java.net.URI.create(moduleUri.toString().replaceFirst("host\\.docker\\.internal", "localhost"));
+                try {
+                    HttpRequest fallbackRequest = HttpRequest.newBuilder(fallbackUri)
+                            .timeout(config.getTimeout())
+                            .GET()
+                            .build();
+                    HttpResponse<String> fallbackResponse = httpClient.send(fallbackRequest, HttpResponse.BodyHandlers.ofString());
+                    if (fallbackResponse.statusCode() < 200 || fallbackResponse.statusCode() >= 300) {
+                        throw new TrinoException(
+                                StandardErrorCode.GENERIC_INTERNAL_ERROR,
+                                "Zoho connector received HTTP " + fallbackResponse.statusCode() + " from " + fallbackUri);
+                    }
+                    return parseRows(fallbackResponse.body());
+                }
+                catch (InterruptedException fallbackInterrupted) {
+                    Thread.currentThread().interrupt();
+                    throw new TrinoException(StandardErrorCode.GENERIC_INTERNAL_ERROR, "Failed to call Express API at " + fallbackUri, fallbackInterrupted);
+                }
+                catch (IOException fallbackIOException) {
+                    throw new TrinoException(
+                            StandardErrorCode.GENERIC_INTERNAL_ERROR,
+                            "Failed to call Express API at " + moduleUri + " and fallback to " + fallbackUri,
+                            fallbackIOException);
+                }
+            }
+            throw new TrinoException(StandardErrorCode.GENERIC_INTERNAL_ERROR, "Failed to call Express API at " + moduleUri, e);
         }
     }
 

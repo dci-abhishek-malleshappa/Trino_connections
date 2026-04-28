@@ -13,7 +13,7 @@ import static java.lang.Integer.parseInt;
 
 public final class ZohoConfig
 {
-    private static final String DEFAULT_BASE_URL = "http://host.docker.internal:5000/api/zoho";
+    private static final String DEFAULT_BASE_URL = "http://host.docker.internal:5001/api/zoho";
     private static final String DEFAULT_SCHEMA = "zoho";
     private static final String DEFAULT_TABLES = "contacts,items,invoices";
     private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(30);

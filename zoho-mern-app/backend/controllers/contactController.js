@@ -4,6 +4,12 @@ const { getAccessToken } = require("../config/zoho");
 const METADATA_KEYS = new Set(["code", "message", "page_context"]);
 const RESPONSE_CACHE_TTL_MS = 30 * 1000;
 const responseCache = new Map();
+const ZOHO_BOOKS_BASE_URL = process.env.ZOHO_BOOKS_BASE_URL || "https://www.zohoapis.in/books/v3";
+const zohoBooksClient = axios.create({
+  baseURL: ZOHO_BOOKS_BASE_URL,
+  proxy: false,
+  timeout: 30000,
+});
 
 const normalizeModuleName = (moduleName) => {
   const normalized = String(moduleName || "").trim().toLowerCase();
@@ -40,9 +46,12 @@ const fetchZohoModule = async (moduleName, organizationId) => {
 
   const accessToken = await getAccessToken();
 
-  const response = await axios.get(
-    `https://www.zohoapis.in/books/v3/${moduleName}?organization_id=${organizationId}`,
+  const response = await zohoBooksClient.get(
+    `/${moduleName}`,
     {
+      params: {
+        organization_id: organizationId,
+      },
       headers: {
         Authorization: `Zoho-oauthtoken ${accessToken}`,
       },

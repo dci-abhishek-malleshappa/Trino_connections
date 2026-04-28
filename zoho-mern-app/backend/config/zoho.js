@@ -3,6 +3,44 @@ require("dotenv").config();
 
 let cachedAccessToken = null;
 let accessTokenExpiresAt = 0;
+const PROXY_ENV_KEYS = [
+  "ALL_PROXY",
+  "all_proxy",
+  "HTTP_PROXY",
+  "http_proxy",
+  "HTTPS_PROXY",
+  "https_proxy",
+];
+
+for (const key of PROXY_ENV_KEYS) {
+  delete process.env[key];
+}
+
+const noProxyEntries = new Set(
+  String(process.env.NO_PROXY || process.env.no_proxy || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean)
+);
+
+[
+  "localhost",
+  "127.0.0.1",
+  "::1",
+  "accounts.zoho.in",
+  "www.zohoapis.in",
+  ".zoho.in",
+].forEach((value) => noProxyEntries.add(value));
+
+process.env.NO_PROXY = Array.from(noProxyEntries).join(",");
+process.env.no_proxy = process.env.NO_PROXY;
+
+const ZOHO_ACCOUNTS_BASE_URL = process.env.ZOHO_ACCOUNTS_BASE_URL || "https://accounts.zoho.in";
+const zohoAuthClient = axios.create({
+  baseURL: ZOHO_ACCOUNTS_BASE_URL,
+  proxy: false,
+  timeout: 30000,
+});
 
 const getAccessToken = async () => {
   const now = Date.now();
@@ -11,8 +49,8 @@ const getAccessToken = async () => {
   }
 
   try {
-    const response = await axios.post(
-      "https://accounts.zoho.in/oauth/v2/token",
+    const response = await zohoAuthClient.post(
+      "/oauth/v2/token",
       null,
       {
         params: {
@@ -29,7 +67,7 @@ const getAccessToken = async () => {
 
     return cachedAccessToken;
   } catch (error) {
-    console.error("Error refreshing token:", error.response?.data);
+    console.error("Error refreshing token:", error.response?.data || error.message);
     throw error;
   }
 };
