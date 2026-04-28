@@ -1,0 +1,104 @@
+{
+  "schemas": [
+    "zoho",
+    "shopify"
+  ],
+  "tables": {
+    "zoho": [
+      "customers",
+      "invoices"
+    ],
+    "shopify": [
+      "orders"
+    ]
+  },
+  "definitions": {
+    "zoho.customers": {
+      "schema": "zoho",
+      "table": "customers",
+      "columns": [
+        {"name": "external_id", "type": "varchar"},
+        {"name": "name", "type": "varchar"},
+        {"name": "active", "type": "boolean"},
+        {"name": "created_date", "type": "date"}
+      ]
+    },
+    "zoho.invoices": {
+      "schema": "zoho",
+      "table": "invoices",
+      "columns": [
+        {"name": "invoice_id", "type": "varchar"},
+        {"name": "customer_id", "type": "varchar"},
+        {"name": "amount", "type": "double"},
+        {"name": "paid", "type": "boolean"},
+        {"name": "created_at", "type": "timestamp"}
+      ]
+    },
+    "shopify.orders": {
+      "schema": "shopify",
+      "table": "orders",
+      "columns": [
+        {"name": "order_id", "type": "varchar"},
+        {"name": "customer_email", "type": "varchar"},
+        {"name": "items_count", "type": "integer"},
+        {"name": "total_amount", "type": "double"},
+        {"name": "created_at", "type": "timestamp"}
+      ]
+    }
+  },
+  "data": {
+    "zoho.customers": [
+      {
+        "external_id": "Z1001",
+        "name": "ABC Traders",
+        "active": true,
+        "created_date": "2026-04-01"
+      },
+      {
+        "external_id": "Z1002",
+        "name": "Northwind Supplies",
+        "active": false,
+        "created_date": "2026-04-05"
+      }
+    ],
+    "zoho.invoices": [
+      {
+        "invoice_id": "INV-001",
+        "customer_id": "Z1001",
+        "amount": 1540.75,
+        "paid": true,
+        "created_at": "2026-04-21T10:15:30Z"
+      },
+      {
+        "invoice_id": "INV-002",
+        "customer_id": "Z1002",
+        "amount": 240.0,
+        "paid": false,
+        "created_at": "2026-04-22T08:00:00Z"
+      }
+    ],
+    "shopify.orders": [
+      {
+        "order_id": "SO-9001",
+        "customer_email": "alice@example.com",
+        "items_count": 3,
+        "total_amount": 249.99,
+        "created_at": "2026-04-20T14:25:00Z"
+      },
+      {
+        "order_id": "SO-9002",
+        "customer_email": "bob@example.com",
+        "items_count": 1,
+        "total_amount": 49.5,
+        "created_at": "2026-04-20T18:40:10Z"
+      },
+      {
+        "order_id": "SO-9003",
+        "customer_email": "carol@example.com",
+        "items_count": 2,
+        "total_amount": 129.0,
+        "created_at": "2026-04-21T09:12:45Z"
+      }
+    ]
+  }
+}

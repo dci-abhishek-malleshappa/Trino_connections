@@ -1,0 +1,239 @@
+{
+  "name": "Trino Tally Webhook API",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "tally/meta/schemas",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Schemas Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [5296, 768],
+      "id": "5e39124f-d2a4-4256-949e-4052686c85c3",
+      "webhookId": "0fdb4bfd-8c68-4a0a-8e42-7ebb2642f200"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { schemas: ['default'] } }];"
+      },
+      "name": "Schemas Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [5552, 768],
+      "id": "d63db4ce-5e56-4bb3-b37f-43161c588150"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "name": "Schemas Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [5808, 768],
+      "id": "29f73ad1-aa24-4a6c-b51e-f830b1151466"
+    },
+    {
+      "parameters": {
+        "path": "tally/meta/tables",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Tables Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [5296, 976],
+      "id": "26d98f5c-d63e-471c-86a3-7901e5d6e216",
+      "webhookId": "86881cfb-c880-4c2b-9479-187317ba32fa"
+    },
+    {
+      "parameters": {
+        "jsCode": "const TABLE_MAP = {\n  ledgers:{type:'Ledger',tag:'LEDGER',defaultFields:['Name','Parent','ClosingBalance','OpeningBalance','CreditLimit']},\n  groups:{type:'Group',tag:'GROUP',defaultFields:['Name','Parent','PrimaryGroup','IsRevenue']},\n  cost_centres:{type:'Cost Centre',tag:'COSTCENTRE',defaultFields:['Name','Parent','Category']},\n  cost_categories:{type:'Cost Category',tag:'COSTCATEGORY',defaultFields:['Name','AllocateRevenue','AllocateNonRevenue']},\n  currencies:{type:'Currency',tag:'CURRENCY',defaultFields:['Name','MailingName','ISOCode']},\n  stock_items:{type:'Stock Item',tag:'STOCKITEM',defaultFields:['Name','Parent','BaseUnits','ClosingBalance','Rate','BuyingPrice','SellingPrice']},\n  stock_groups:{type:'Stock Group',tag:'STOCKGROUP',defaultFields:['Name','Parent','IsAddable']},\n  stock_categories:{type:'Stock Category',tag:'STOCKCATEGORY',defaultFields:['Name','Parent']},\n  units:{type:'Unit',tag:'UNIT',defaultFields:['Name','OriginalName','UQCName','IsSimpleUnit','Conversion']},\n  godowns:{type:'Godown',tag:'GODOWN',defaultFields:['Name','Parent','IsInternal','IsExternal']},\n  voucher_types:{type:'Voucher Type',tag:'VOUCHERTYPE',defaultFields:['Name','Parent','NumberingMethod','IsDeemedPositive']},\n  employees:{type:'Employee',tag:'EMPLOYEE',defaultFields:['Name','Parent','Designation','Department','DateOfJoining']},\n  employee_groups:{type:'Employee Group',tag:'EMPLOYEEGROUP',defaultFields:['Name','Parent']},\n  attendance_types:{type:'Attendance or Production Type',tag:'ATTENDANCETYPE',defaultFields:['Name','Parent','AttendanceType']},\n  vouchers:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration']},\n  sales:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Sales'},\n  purchases:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Purchase'},\n  payments:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Payment'},\n  receipts:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Receipt'},\n  journals:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Journal'},\n  contra:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Contra'},\n  companies:{type:'Company',tag:'COMPANY',defaultFields:['Name','MailingName','Address','StateName','PinCode','Phone']}\n};\nreturn [{ json: { tables: Object.keys(TABLE_MAP).map(name => ({ schema: 'default', name })) } }];"
+      },
+      "name": "Tables Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [5552, 976],
+      "id": "f83c1bbe-fd9e-437f-912d-d1a37aa5c6ae"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "name": "Tables Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [5808, 976],
+      "id": "af384e4a-a775-42e3-a285-e433e628615a"
+    },
+    {
+      "parameters": {
+        "path": "tally/meta/table",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Table Meta Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [5296, 1168],
+      "id": "b3c0cf28-baca-4cff-aefb-82def55ebe3c",
+      "webhookId": "029e49de-faf4-4f84-94f3-15034a87e1f5"
+    },
+    {
+      "parameters": {
+        "jsCode": "const TABLE_MAP = {\n  ledgers:{defaultFields:['Name','Parent','ClosingBalance','OpeningBalance','CreditLimit']},\n  groups:{defaultFields:['Name','Parent','PrimaryGroup','IsRevenue']},\n  cost_centres:{defaultFields:['Name','Parent','Category']},\n  cost_categories:{defaultFields:['Name','AllocateRevenue','AllocateNonRevenue']},\n  currencies:{defaultFields:['Name','MailingName','ISOCode']},\n  stock_items:{defaultFields:['Name','Parent','BaseUnits','ClosingBalance','Rate','BuyingPrice','SellingPrice']},\n  stock_groups:{defaultFields:['Name','Parent','IsAddable']},\n  stock_categories:{defaultFields:['Name','Parent']},\n  units:{defaultFields:['Name','OriginalName','UQCName','IsSimpleUnit','Conversion']},\n  godowns:{defaultFields:['Name','Parent','IsInternal','IsExternal']},\n  voucher_types:{defaultFields:['Name','Parent','NumberingMethod','IsDeemedPositive']},\n  employees:{defaultFields:['Name','Parent','Designation','Department','DateOfJoining']},\n  employee_groups:{defaultFields:['Name','Parent']},\n  attendance_types:{defaultFields:['Name','Parent','AttendanceType']},\n  vouchers:{defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration']},\n  sales:{defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration']},\n  purchases:{defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration']},\n  payments:{defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration']},\n  receipts:{defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration']},\n  journals:{defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration']},\n  contra:{defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration']},\n  companies:{defaultFields:['Name','MailingName','Address','StateName','PinCode','Phone']}\n};\nconst q = $input.first().json.query || {};\nconst table = String(q.table || q.name || '').toLowerCase();\nconst config = TABLE_MAP[table];\nif (!table) return [{ json: { error: 'Missing table query parameter. Example: /tally/meta/table?table=ledgers' } }];\nif (!config) return [{ json: { error: `Unsupported table: ${table}`, supported: Object.keys(TABLE_MAP) } }];\nreturn [{ json: { schema: 'default', table, columns: config.defaultFields.map(f => ({ name: f.toLowerCase(), type: 'varchar' })) } }];"
+      },
+      "name": "Table Meta Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [5552, 1168],
+      "id": "83d557e1-608b-4a76-b4f4-e745f4eb89d5"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "name": "Table Meta Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [5808, 1168],
+      "id": "3dbc5748-df2e-4eac-9baa-1a73507e3574"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tally/data",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Data Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [5296, 1440],
+      "id": "d3189d51-f4f8-4db3-9593-99c8f305b0e3",
+      "webhookId": "9f0ae6ca-b3b8-4ffd-bdd8-03237cbada77"
+    },
+    {
+      "parameters": {
+        "jsCode": "const TABLE_MAP = {\n  ledgers:{type:'Ledger',tag:'LEDGER',defaultFields:['Name','Parent','ClosingBalance','OpeningBalance','CreditLimit']},\n  groups:{type:'Group',tag:'GROUP',defaultFields:['Name','Parent','PrimaryGroup','IsRevenue']},\n  cost_centres:{type:'Cost Centre',tag:'COSTCENTRE',defaultFields:['Name','Parent','Category']},\n  cost_categories:{type:'Cost Category',tag:'COSTCATEGORY',defaultFields:['Name','AllocateRevenue','AllocateNonRevenue']},\n  currencies:{type:'Currency',tag:'CURRENCY',defaultFields:['Name','MailingName','ISOCode']},\n  stock_items:{type:'Stock Item',tag:'STOCKITEM',defaultFields:['Name','Parent','BaseUnits','ClosingBalance','Rate','BuyingPrice','SellingPrice']},\n  stock_groups:{type:'Stock Group',tag:'STOCKGROUP',defaultFields:['Name','Parent','IsAddable']},\n  stock_categories:{type:'Stock Category',tag:'STOCKCATEGORY',defaultFields:['Name','Parent']},\n  units:{type:'Unit',tag:'UNIT',defaultFields:['Name','OriginalName','UQCName','IsSimpleUnit','Conversion']},\n  godowns:{type:'Godown',tag:'GODOWN',defaultFields:['Name','Parent','IsInternal','IsExternal']},\n  voucher_types:{type:'Voucher Type',tag:'VOUCHERTYPE',defaultFields:['Name','Parent','NumberingMethod','IsDeemedPositive']},\n  employees:{type:'Employee',tag:'EMPLOYEE',defaultFields:['Name','Parent','Designation','Department','DateOfJoining']},\n  employee_groups:{type:'Employee Group',tag:'EMPLOYEEGROUP',defaultFields:['Name','Parent']},\n  attendance_types:{type:'Attendance or Production Type',tag:'ATTENDANCETYPE',defaultFields:['Name','Parent','AttendanceType']},\n  vouchers:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration']},\n  sales:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Sales'},\n  purchases:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Purchase'},\n  payments:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Payment'},\n  receipts:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Receipt'},\n  journals:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Journal'},\n  contra:{type:'Voucher',tag:'VOUCHER',defaultFields:['Date','VoucherNumber','VoucherTypeName','PartyLedgerName','Amount','Narration'],voucherType:'Contra'},\n  companies:{type:'Company',tag:'COMPANY',defaultFields:['Name','MailingName','Address','StateName','PinCode','Phone']}\n};\nconst input = $input.first().json;\nconst query = input.query || {};\nlet body = {};\ntry { body = typeof input.body === 'string' ? JSON.parse(input.body || '{}') : (input.body || {}); } catch (e) { body = {}; }\nlet table = String(query.table || body.table || '').toLowerCase();\nconst limit = Number(query.limit || body.limit || 0);\nconst offset = Number(query.offset || body.offset || 0);\nif (!table) {\n  const rawSql = String(body.sql || body.query || query.sql || query.query || '').trim();\n  const fromMatch = rawSql.match(/FROM\\s+([\\w.\"]+)/i);\n  table = fromMatch ? fromMatch[1].replace(/\"/g, '').toLowerCase().split('.').pop() : '';\n}\nif (!table) return [{ json: { error: 'Missing table query parameter' } }];\nconst config = TABLE_MAP[table];\nif (!config) return [{ json: { error: `Unsupported table: ${table}`, supported: Object.keys(TABLE_MAP) } }];\nreturn [{ json: { table, tag: config.tag, type: config.type, fetchFields: config.defaultFields, tallyFilters: [], voucherType: config.voucherType || null, company: String(query.company || body.company || ''), fromDate: String(query.fromDate || query.fromdate || body.fromDate || body.fromdate || ''), toDate: String(query.toDate || query.todate || body.toDate || body.todate || ''), limit, offset, orderBy: null, rawSql: '' } }];"
+      },
+      "name": "Parse SQL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [5552, 1440],
+      "id": "8e89326c-1339-4b6a-a1fc-1149e4aea008"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nif (item.error) return [{ json: item }];\nconst { table, company, fromDate, toDate } = item;\nlet reportName = 'List of Accounts';\nif (['stock_items', 'stock_groups', 'stock_categories'].includes(table)) reportName = 'Stock Summary';\nif (['vouchers', 'sales', 'purchases', 'payments', 'receipts', 'journals', 'contra'].includes(table)) reportName = 'Day Book';\nconst xml = `<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ENVELOPE>\n  <HEADER>\n    <VERSION>1</VERSION>\n    <TALLYREQUEST>Export</TALLYREQUEST>\n    <TYPE>Data</TYPE>\n    <ID>${reportName}</ID>\n  </HEADER>\n  <BODY>\n    <DESC>\n      <STATICVARIABLES>\n        <SVEXPORTFORMAT>$$SysName:XML</SVEXPORTFORMAT>${company ? `\n        <SVCURRENTCOMPANY>${company}</SVCURRENTCOMPANY>` : ''}${fromDate ? `\n        <SVFROMDATE>${fromDate}</SVFROMDATE>` : ''}${toDate ? `\n        <SVTODATE>${toDate}</SVTODATE>` : ''}\n      </STATICVARIABLES>\n    </DESC>\n  </BODY>\n</ENVELOPE>`;\nreturn [{ json: { ...item, xml } }];"
+      },
+      "name": "Build XML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [5808, 1440],
+      "id": "eecc14db-5dea-4cca-9dbe-56247a4289f5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:9000",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "text/xml;charset=utf-8",
+        "body": "={{ $json.xml }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "name": "Fetch Tally",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [6048, 1440],
+      "id": "55b40d20-c86c-4c82-b8c0-61cedbcdd6c5"
+    },
+    {
+      "parameters": {
+        "jsCode": "const meta = $('Build XML').first().json;\nconst raw = $input.first().json;\nfunction extractXml(val) {\n  if (!val) return '';\n  if (typeof val === 'string') return val;\n  if (typeof val === 'object') {\n    const candidate = val.data || val.body || val.content || val.text || val.result || val.response;\n    if (candidate) return extractXml(candidate);\n    if (val.type === 'Buffer' && Array.isArray(val.data)) return Buffer.from(val.data).toString('utf-8');\n  }\n  return String(val);\n}\nconst xml = extractXml(raw);\nconst expectedTag = meta.tag || '';\nconst tagCount = expectedTag ? (xml.match(new RegExp('<' + expectedTag + '\\\\b[^>]*>', 'gi')) || []).length : 0;\nreturn [{ json: { ...meta, _rawXml: xml, _debug: { expectedTag, tagMatchCount: tagCount, xmlLength: xml.length, xmlPreview: xml.substring(0, 1000) } } }];"
+      },
+      "name": "Debug Tally Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [6304, 1440],
+      "id": "778b746f-353a-446d-acf6-a536fc33ff09"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nif (item.error && !item.tag) return [{ json: { data: [], hasMore: false, error: item.error } }];\nconst { table, tag, fetchFields, _rawXml, _debug } = item;\nconst xml = _rawXml || '';\nconst fields = Array.isArray(fetchFields) ? fetchFields : [];\nconst columns = fields.map(f => f.toLowerCase());\nfunction decodeXml(s) {\n  return String(s || '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '\"').replace(/&apos;/g, \"'\");\n}\nlet rows = [];\nconst tagsToTry = tag ? [tag, tag.toLowerCase()] : [];\nfor (const tryTag of tagsToTry) {\n  const re = new RegExp('<' + tryTag + '\\\\b[^>]*>[\\\\s\\\\S]*?<\\\\/' + tryTag + '>', 'gi');\n  const matches = [...xml.matchAll(re)];\n  if (!matches.length) continue;\n  for (const block of matches) {\n    const b = block[0];\n    const rawRow = {};\n    let name = null;\n    const attrMatch = b.match(new RegExp('<' + tryTag + '[^>]*\\\\bNAME=\"([^\"]*)\"', 'i'));\n    if (attrMatch) name = decodeXml(attrMatch[1]);\n    if (!name) {\n      const tagMatch = b.match(/<NAME[^>]*>([\\s\\S]*?)<\\/NAME>/i);\n      if (tagMatch) name = decodeXml(tagMatch[1].trim());\n    }\n    if (name && !name.includes('<')) rawRow.name = name;\n    for (const field of fields) {\n      const f = field.toLowerCase();\n      if (f === 'name' && rawRow.name) continue;\n      const fieldRegex = new RegExp('<' + field + '[^>]*>([\\\\s\\\\S]*?)<\\\\/' + field + '>', 'i');\n      const fieldMatch = b.match(fieldRegex);\n      if (fieldMatch) rawRow[f] = decodeXml(fieldMatch[1].trim());\n    }\n    if (Object.keys(rawRow).length > 0) {\n      const out = {};\n      for (const c of columns) out[c] = rawRow[c] ?? null;\n      rows.push(out);\n    }\n  }\n  if (rows.length > 0) break;\n}\nlet finalRows = rows;\nif (item.offset && item.offset > 0) finalRows = finalRows.slice(item.offset);\nif (item.limit && item.limit > 0) finalRows = finalRows.slice(0, item.limit);\nreturn [{ json: { data: finalRows, hasMore: false, debug: _debug } }];"
+      },
+      "name": "Parse to JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [6560, 1440],
+      "id": "4cedd7ce-1bd5-4b7d-a5fa-8cdddd04392a"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "name": "Data Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [6800, 1440],
+      "id": "ab09b2a7-b413-4dc2-ba56-88d8f270bad3"
+    }
+  ],
+  "connections": {
+    "Schemas Webhook": {
+      "main": [[{"node": "Schemas Code", "type": "main", "index": 0}]]
+    },
+    "Schemas Code": {
+      "main": [[{"node": "Schemas Response", "type": "main", "index": 0}]]
+    },
+    "Tables Webhook": {
+      "main": [[{"node": "Tables Code", "type": "main", "index": 0}]]
+    },
+    "Tables Code": {
+      "main": [[{"node": "Tables Response", "type": "main", "index": 0}]]
+    },
+    "Table Meta Webhook": {
+      "main": [[{"node": "Table Meta Code", "type": "main", "index": 0}]]
+    },
+    "Table Meta Code": {
+      "main": [[{"node": "Table Meta Response", "type": "main", "index": 0}]]
+    },
+    "Data Webhook": {
+      "main": [[{"node": "Parse SQL", "type": "main", "index": 0}]]
+    },
+    "Parse SQL": {
+      "main": [[{"node": "Build XML", "type": "main", "index": 0}]]
+    },
+    "Build XML": {
+      "main": [[{"node": "Fetch Tally", "type": "main", "index": 0}]]
+    },
+    "Fetch Tally": {
+      "main": [[{"node": "Debug Tally Response", "type": "main", "index": 0}]]
+    },
+    "Debug Tally Response": {
+      "main": [[{"node": "Parse to JSON", "type": "main", "index": 0}]]
+    },
+    "Parse to JSON": {
+      "main": [[{"node": "Data Response", "type": "main", "index": 0}]]
+    }
+  },
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-27T10:40:00.000Z",
+  "versionId": "fixed-trino-tally-webhook-api"
+}

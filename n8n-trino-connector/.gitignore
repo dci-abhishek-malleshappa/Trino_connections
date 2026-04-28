@@ -1,0 +1,10 @@
+target/
+.m2repo/
+.m2repo-docker/
+__pycache__/
+*.py[cod]
+*.class
+
+# Local packaged/dependency artifacts generated from Maven builds.
+*.jar
+trino-plugin/
