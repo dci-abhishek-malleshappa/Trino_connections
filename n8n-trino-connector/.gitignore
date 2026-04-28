@@ -8,3 +8,4 @@ __pycache__/
 # Local packaged/dependency artifacts generated from Maven builds.
 *.jar
 trino-plugin/
+
